@@ -1,22 +1,26 @@
 pipeline {
     agent any
- stages {
+       Docker{
+           image 'maven:3-alpne'
+           args '-v/root/.m2:/root/.m2'
+          }
+    stages {
         stage('Build') {
             Step {
             sh 'mvn -B -DskipTests Clean Package'
             }
           }
-          Stage('Test'){
+        Stage('Test'){
               Steps{
                  sh 'mvn test'
               }   
               Post{
               always {
-                  Junit 'target/surefire-reports/*.xml'
+                  Dina
               }
             }
           }
-          Stage('Deliver') {
+        Stage('Deliver') {
                 Steps{
                   sh './jenkins/scripts/deliver.sh'
             }
